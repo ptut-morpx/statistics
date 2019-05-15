@@ -10,13 +10,34 @@ html, body {
 
 body {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 }
 
-main {
-	width: 70%;
+div {
+	height: calc(100% - 20px);
+	width: 100%;
+	top: 20px;
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+div.sel {
+	opacity: 1;
+	pointer-events: auto;
 }
 
-aside {
-	width: 30%;
+canvas {
+	float: left;
+	max-height: 100% !important;
+}
+canvas.a {
+	max-width: 60% !important;
+}
+canvas.b {
+	max-width: 40% !important;
+}
+
+nav {
+	height: 20px;
+	flex: 0;
 }

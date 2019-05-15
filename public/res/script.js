@@ -20,14 +20,14 @@ labels.push(["Nombre de lignes", "de 2 grandes cases"]);
 labels.push(["Nombre de", "grandes cases"]);
 labels.push(["Nombre de", "cases contrôlées"]);
 
-const winnerStatsEvolution=function winnerStatsEvolution(data) {
-	const canvas=document.querySelector('main canvas');
+const winnerStatsEvolution=function winnerStatsEvolution(data, index=0) {
+	const canvas=document.querySelector('.c'+index+' .a');
 	
 	const datasets=[]
 	for(let i=0; i<4; i++) {
 		datasets.push({
 			label: labels[i].join(" "),
-			data: data.map(d => d[0].coef[i]),
+			data: data.map(d => d[index].coef[i]),
 			fill: false,
 			backgroundColor: colors[i],
 			borderColor: colors[i],
@@ -45,7 +45,7 @@ const winnerStatsEvolution=function winnerStatsEvolution(data) {
 			responsive: true,
 			title: {
 				display: true,
-				text: "Evolution des coefficients du vainqueur des tournois"
+				text: "Evolution des coefficients du joueur #"+(index+1)
 			},
 			scales: {
 				xAxes: [
@@ -71,8 +71,8 @@ const winnerStatsEvolution=function winnerStatsEvolution(data) {
 	});
 };
 
-const winnerStatsRadar=function winnerStatsRadar(data) {
-	const canvas=document.querySelector('aside canvas');
+const winnerStatsRadar=function winnerStatsRadar(data, index=0) {
+	const canvas=document.querySelector('.c'+index+' .b');
 	
 	const dataset={
 		data,
@@ -93,7 +93,7 @@ const winnerStatsRadar=function winnerStatsRadar(data) {
 			},
 			title: {
 				display: true,
-				text: "Coefficients du meilleur joueur"
+				text: "Coefficients du joueur #"+(index+1)
 			},
 			scale: {
 				ticks: {
@@ -111,6 +111,16 @@ window.onload=async () => {
 	const data=await getData();
 	console.log(data);
 	
-	winnerStatsEvolution(data);
-	winnerStatsRadar(data[data.length-1][0].coef);
+	for(let i=0; i<3; i++) {
+		winnerStatsEvolution(data, i);
+		winnerStatsRadar(data[data.length-1][i].coef, i);
+	}
+};
+
+const show=function show(n) {
+	for(let i=0; i<3; i++) {
+		let e=document.querySelector('.c'+i);
+		if(i!=n) e.classList.remove('sel');
+		else e.classList.add('sel');
+	}
 };
